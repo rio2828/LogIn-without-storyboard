@@ -101,7 +101,7 @@ class ViewController: UIViewController {
         button.setTitle("표시", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .light)
-//        button.addTarget(self, action: #selector(passwordSecureModeSetting), for: .touchUpInside)
+        button.addTarget(self, action: #selector(passwordSecureModeSetting), for: .touchUpInside)
         
         return button
     }()
@@ -151,11 +151,18 @@ class ViewController: UIViewController {
     // 3개의 각 텍스트필드 및 로그인 버튼의 높이 설정
     private let textViewHeight: CGFloat = 48
     
+    // 오토레이아웃 향후 변경을 위한 변수(애니메이션)
+    lazy var emailInfoLabelCenterYConstraint = emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor)
+    lazy var passwordInfoLabelCenterYConstraint = passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor)
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         
         makeUI()
         
@@ -182,7 +189,9 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             emailInfoLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
             emailInfoLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 8),
-            emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor, constant: 0),
+//            emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor, constant: 0)
+//            동적인 interaction을 위해 고정을 풀어준다.
+            emailInfoLabelCenterYConstraint,
             
             emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
             emailTextField.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 8),
@@ -191,7 +200,9 @@ class ViewController: UIViewController {
             
             passwordInfoLabel.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8),
             passwordInfoLabel.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: 8),
-            passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor, constant: 0),
+//            passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor, constant: 0),
+//            동적인 interaction을 위해 고정을 풀어준다.
+            passwordInfoLabelCenterYConstraint,
             
             passwordTextField.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8),
             passwordTextField.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: 8),
@@ -214,7 +225,14 @@ class ViewController: UIViewController {
             passwordResetButton.heightAnchor.constraint(equalToConstant: textViewHeight)
         ])
     }
-        
+     
+    @objc func passwordSecureModeSetting() {
+        passwordTextField.isSecureTextEntry.toggle()
+    }
+    
+    
+    
+    
     @objc func resetButtonTapped() {
 //        print("리셋버튼이 눌렸습니다.")
         
@@ -240,15 +258,57 @@ class ViewController: UIViewController {
     }
     
     
-    
-        
-        
-        
-        
-        
-        
 }
+        
+        
+        
+extension ViewController: UITextFieldDelegate {
+        
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == emailTextField {
+            emailTextFieldView.backgroundColor = .gray
+            emailInfoLabel.font = UIFont.systemFont(ofSize: 11)
+            
+            // 오토레이아웃 업데이트
+            emailInfoLabelCenterYConstraint.constant = -13
+        }
+        
+        if textField == passwordTextField {
+            passwordTextFieldView.backgroundColor = .gray
+            passwordInfoLabel.font = UIFont.systemFont(ofSize: 11)
+            
+            //오토레이아웃 업데이트
+            passwordInfoLabelCenterYConstraint.constant = -13
+        }
+        
+        UIView.animate(withDuration: 0.3) {
+            self.stackView.layoutIfNeeded()
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == emailTextField {
+            emailTextFieldView.backgroundColor = .darkGray
+            // 빈칸이면 원래로 되돌리기
+            if emailTextField.text == "" {
+                emailInfoLabel.font = UIFont.systemFont(ofSize: 18)
+                emailInfoLabelCenterYConstraint.constant = 0
+            }
+        }
+        if textField == passwordTextField {
+            passwordTextFieldView.backgroundColor = .darkGray
+            // 빈칸이면 원래로 되돌리기
+            if passwordTextField.text == "" {
+                passwordInfoLabel.font = UIFont.systemFont(ofSize: 18)
+                passwordInfoLabelCenterYConstraint.constant = 0
+            }
+        }
+        
+        UIView.animate(withDuration: 0.3) {
+            self.stackView.layoutIfNeeded()
+        }
+    }
 
-
+}
 
 
