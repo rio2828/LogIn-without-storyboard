@@ -53,9 +53,9 @@ class ViewController: UIViewController {
         view.backgroundColor = .darkGray
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
-//        view.addSubview(passwordTextField)
-//        view.addSubview(passwordInfoLabel)
-//        view.addSubview(passwordSecureButton)
+        view.addSubview(passwordTextField)
+        view.addSubview(passwordInfoLabel)
+        view.addSubview(passwordSecureButton)
         
         return view
     }()
@@ -139,7 +139,7 @@ class ViewController: UIViewController {
     }
     
     func makeUI() {
-        view.addSubview(emailTextFieldView)
+        view.addSubview(stackView)
         
         emailInfoLabel.translatesAutoresizingMaskIntoConstraints = false
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
