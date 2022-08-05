@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
     // 이메일 입력하는 텍스트 뷰
     private lazy var emailTextFieldView: UIView = {
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
     // 비밀번호 입력하는 텍스트 뷰
     private lazy var passwordTextFieldView: UIView = {
         let view = UIView()
-        //view.frame.size.height = 48
+//        view.frame.size.height = 48
         view.backgroundColor = .darkGray
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
         button.setTitle("로그인", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.isEnabled = false
-//        button.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -189,8 +189,8 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             emailInfoLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
             emailInfoLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 8),
-//            emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor, constant: 0)
-//            동적인 interaction을 위해 고정을 풀어준다.
+//          emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor, constant: 0)
+//          동적인 interaction을 위해 고정을 풀어준다.
             emailInfoLabelCenterYConstraint,
             
             emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
@@ -200,8 +200,8 @@ class ViewController: UIViewController {
             
             passwordInfoLabel.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8),
             passwordInfoLabel.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: 8),
-//            passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor, constant: 0),
-//            동적인 interaction을 위해 고정을 풀어준다.
+//          passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor, constant: 0),
+//          동적인 interaction을 위해 고정을 풀어준다.
             passwordInfoLabelCenterYConstraint,
             
             passwordTextField.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8),
@@ -230,11 +230,13 @@ class ViewController: UIViewController {
         passwordTextField.isSecureTextEntry.toggle()
     }
     
+    @objc func loginButtonTapped() {
+        print("로그인 버튼이 눌렸습니다.")
+    }
     
     
     
     @objc func resetButtonTapped() {
-//        print("리셋버튼이 눌렸습니다.")
         
         let alert = UIAlertController(title: "비밀번호 바꾸기", message: "비밀번호를 바꾸시겠습니까?", preferredStyle: .alert)
         
@@ -246,17 +248,21 @@ class ViewController: UIViewController {
             print("취소버튼이 눌렸습니다.")
         }
         
-        let donknow = UIAlertAction(title: "나중에", style: .default) { donknow in
+        let later = UIAlertAction(title: "나중에", style: .default) { later in
             print("나중에 할래")
         }
         
         alert.addAction(success)
         alert.addAction(cancel)
-        alert.addAction(donknow)
+        alert.addAction(later)
         
         present(alert, animated: true, completion: nil)
     }
     
+//    다른 곳 터치했을 때 키보드가 내려가는 기능
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
 }
         
