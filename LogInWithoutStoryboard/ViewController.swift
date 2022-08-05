@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         tf.autocorrectionType = .no
         tf.spellCheckingType = .no
         tf.keyboardType = .emailAddress
-//        tf.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
+        tf.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         
         return tf
     }()
@@ -89,7 +89,7 @@ class ViewController: UIViewController {
         tf.spellCheckingType = .no
         tf.isSecureTextEntry = true
         tf.clearsOnBeginEditing = false
-//        tf.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
+        tf.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         
         return tf
     }()
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
     
     
     // 로그인 버튼
-    private let longinButton: UIButton = {
+    private let loginButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
         button.layer.cornerRadius = 5
@@ -124,7 +124,7 @@ class ViewController: UIViewController {
     
     
     lazy var stackView: UIStackView = {
-        let st = UIStackView(arrangedSubviews: [emailTextFieldView, passwordTextFieldView, longinButton])
+        let st = UIStackView(arrangedSubviews: [emailTextFieldView, passwordTextFieldView, loginButton])
         st.spacing = 18
         st.axis = .vertical
         // 축 설정 (세로인지 가로인지) 세로라면 vertical, 가로라면 horizontal
@@ -308,6 +308,29 @@ extension ViewController: UITextFieldDelegate {
             self.stackView.layoutIfNeeded()
         }
     }
+
+    @objc func textFieldEditingChanged(_ textField: UITextField) {
+        if textField.text?.count == 1 {
+            if textField.text?.first == " " {
+                textField.text = ""
+                return
+            }
+        }
+        guard
+            let email = emailTextField.text, !email.isEmpty,
+            let password = passwordTextField.text, !password.isEmpty
+        else {
+            loginButton.backgroundColor = .clear
+            loginButton.isEnabled = false
+            return
+        }
+        loginButton.backgroundColor = .red
+        loginButton.isEnabled = true
+    }
+    
+    
+    
+    
 
 }
 
