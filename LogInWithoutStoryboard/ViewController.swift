@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         return view
     }()
     
+    
     // "이메일 또는 전화번호" 안내문구
     private var emailInfoLabel: UILabel = {
         let label = UILabel()
@@ -30,6 +31,7 @@ class ViewController: UIViewController {
         
         return label
     }()
+    
     
     // 로그인 - 이메일 입력 텍스트필드
     private lazy var emailTextField: UITextField = {
@@ -43,8 +45,10 @@ class ViewController: UIViewController {
         tf.spellCheckingType = .no
         tf.keyboardType = .emailAddress
 //        tf.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
+        
         return tf
     }()
+    
     
     // 비밀번호 입력하는 텍스트 뷰
     private lazy var passwordTextFieldView: UIView = {
@@ -60,14 +64,17 @@ class ViewController: UIViewController {
         return view
     }()
     
+    
     // passwordTextField의 안내문구
     private var passwordInfoLabel: UILabel = {
         let label = UILabel()
         label.text = "비밀번호"
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .white
+        
         return label
     }()
+    
     
     // 로그인 - 비밀번호 입력 필드
     private let passwordTextField: UITextField = {
@@ -87,6 +94,7 @@ class ViewController: UIViewController {
         return tf
     }()
     
+    
     // 패스워드에 "표시"버튼 비밀번호 가리기 기능
     private let passwordSecureButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -94,6 +102,7 @@ class ViewController: UIViewController {
         button.setTitleColor(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .light)
 //        button.addTarget(self, action: #selector(passwordSecureModeSetting), for: .touchUpInside)
+        
         return button
     }()
     
@@ -109,8 +118,10 @@ class ViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.isEnabled = false
 //        button.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
+        
         return button
     }()
+    
     
     lazy var stackView: UIStackView = {
         let st = UIStackView(arrangedSubviews: [emailTextFieldView, passwordTextFieldView, longinButton])
@@ -123,8 +134,23 @@ class ViewController: UIViewController {
         return st
     }()
     
+    
+    // 비밀번호 재설정 버튼
+    private let passwordResetButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.setTitle("비밀번호 재설정", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+//        button.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    
+    
     // 3개의 각 텍스트필드 및 로그인 버튼의 높이 설정
     private let textViewHeight: CGFloat = 48
+    
     
     
     override func viewDidLoad() {
@@ -139,7 +165,10 @@ class ViewController: UIViewController {
     }
     
     func makeUI() {
+        view.backgroundColor = UIColor.black
+        
         view.addSubview(stackView)
+        view.addSubview(passwordResetButton)
         
         emailInfoLabel.translatesAutoresizingMaskIntoConstraints = false
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -147,13 +176,13 @@ class ViewController: UIViewController {
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordSecureButton.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        passwordResetButton.translatesAutoresizingMaskIntoConstraints = false
         
         
         NSLayoutConstraint.activate([
             emailInfoLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
             emailInfoLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 8),
             emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor, constant: 0),
-            
             
             emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
             emailTextField.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 8),
@@ -173,15 +202,21 @@ class ViewController: UIViewController {
             passwordSecureButton.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -15),
             passwordSecureButton.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -8),
             
-            
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            stackView.heightAnchor.constraint(equalToConstant: textViewHeight*3 + 36)
+            stackView.heightAnchor.constraint(equalToConstant: textViewHeight*3 + 36),
+            
+            passwordResetButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
+            passwordResetButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            passwordResetButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            passwordResetButton.heightAnchor.constraint(equalToConstant: textViewHeight)
         ])
     }
         
+    
+    
     
     
         
