@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         button.backgroundColor = .clear
         button.setTitle("비밀번호 재설정", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-//        button.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -215,7 +215,29 @@ class ViewController: UIViewController {
         ])
     }
         
-    
+    @objc func resetButtonTapped() {
+//        print("리셋버튼이 눌렸습니다.")
+        
+        let alert = UIAlertController(title: "비밀번호 바꾸기", message: "비밀번호를 바꾸시겠습니까?", preferredStyle: .alert)
+        
+        let success = UIAlertAction(title: "확인", style: .destructive) { action in
+            print("확인버튼이 눌렸습니다.")
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in
+            print("취소버튼이 눌렸습니다.")
+        }
+        
+        let donknow = UIAlertAction(title: "나중에", style: .default) { donknow in
+            print("나중에 할래")
+        }
+        
+        alert.addAction(success)
+        alert.addAction(cancel)
+        alert.addAction(donknow)
+        
+        present(alert, animated: true, completion: nil)
+    }
     
     
     
@@ -223,22 +245,6 @@ class ViewController: UIViewController {
         
         
         
-//        emailTextFieldView.backgroundColor = UIColor.darkGray
-//
-//        view.addSubview(emailTextFieldView)
-//
-//        emailTextFieldView.translatesAutoresizingMaskIntoConstraints = false  //⭐️⭐️⭐️
-//
-//        emailTextFieldView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-//
-//        emailTextFieldView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
-//
-//        emailTextFieldView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
-//
-//        emailTextFieldView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-//
-//        emailTextFieldView.layer.cornerRadius = 10
-//        emailTextFieldView.layer.masksToBounds = true
         
         
 }
